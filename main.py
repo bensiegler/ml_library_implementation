@@ -1,48 +1,53 @@
 import numpy as np
 
-X = [[1, 2, 3]]  # input values
-Y = [1, 2, 4]  # true values
+X = np.array([[1],
+              [2],
+              [3],
+              [4]])  # input values
+Y = np.array([100,
+              200,
+              300,
+              400])  # true values
 
-w = [0]  # feature weights
-b = [0]  # bias
-a = 0.01
+w = np.array([0.0])  # feature weights
+b = 0.0  # bias
+a = 0.1
 Y_HAT = []  # predicted values
 
 
-def predict_values():
+def predict():
     global Y_HAT
-    # iterate through each example and compute the predicted value
-    for i in range(len(X)):
-        Y_HAT = np.dot(X[i], w[i]) + b[i]
-    return Y_HAT
+    Y_HAT = np.dot(X, w) + b
 
 
 def compute_cost():
-    predict_values()
+    predict()
     diff_squared_sum = 0
     for i in range(len(Y_HAT)):
         diff_squared_sum += pow(Y_HAT[i] - Y[i], 2)
-    return diff_squared_sum / 2 * len(Y_HAT)
+    return diff_squared_sum / (2 * len(Y_HAT))
 
 
 def find_w_adjustments():
-    num_input_features = len(X)
-    num_examples = len(X[0])
-    w_adjustments = []
-    total = 0
-    for i in range(num_input_features):
-        for j in range(num_examples):
-            total += ((Y_HAT[i] - Y[i]) * X[i][j]) / num_examples
-        w_adjustments.append(total)
-    return w_adjustments
+    num_examples, num_input_features = X.shape
+    w_adjustments = np.zeros((num_input_features,))
+    b_adjustment = 0
+    for i in range(num_examples):
+        error = Y[i] - (np.dot(X[i], w) + b)
+        for j in range(num_input_features):
+            w_adjustments[j] = w_adjustments[j] + (error * X[i][j])
+        b_adjustment += error
+    return w_adjustments / num_examples, b_adjustment / num_examples
 
 
-for j in range(5000):
+for x in range(1000000):
     print("cost", compute_cost())
     print("prediction", Y_HAT)
-
-    dw = find_w_adjustments()
+    m, n = X.shape
+    dw, db = find_w_adjustments()
     print("w", w, "     dw", dw)
-    for i in range(len(dw)):
-        w[i] = w[i] - (dw[i] * a)
+    print("b", b, "     db", db)
+    for y in range(n):
+        w[y] = w[y] + (dw[y] * a)
+    b = b + (db * a)
 
