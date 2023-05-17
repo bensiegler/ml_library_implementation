@@ -1,17 +1,17 @@
 import numpy as np
 
-X = np.array([[1],
-              [2],
-              [3],
-              [4]])  # input values
-Y = np.array([100,
-              200,
-              300,
-              400])  # true values
+X = np.array([[1, 5, 2],
+              [2, 2, 5],
+              [3, 1, 8],
+              [4, 0, 10]])  # input values
+Y = np.array([103,
+              103,
+              180,
+              200])  # true values
 
-w = np.array([0.0])  # feature weights
+w = np.array(np.zeros(X[0].shape))  # feature weights
 b = 0.0  # bias
-a = 0.1
+a = 0.01
 Y_HAT = []  # predicted values
 
 
@@ -28,7 +28,7 @@ def compute_cost():
     return diff_squared_sum / (2 * len(Y_HAT))
 
 
-def find_w_adjustments():
+def find_adjustments():
     num_examples, num_input_features = X.shape
     w_adjustments = np.zeros((num_input_features,))
     b_adjustment = 0
@@ -40,11 +40,11 @@ def find_w_adjustments():
     return w_adjustments / num_examples, b_adjustment / num_examples
 
 
-for x in range(1000000):
+for x in range(90000):
     print("cost", compute_cost())
     print("prediction", Y_HAT)
     m, n = X.shape
-    dw, db = find_w_adjustments()
+    dw, db = find_adjustments()
     print("w", w, "     dw", dw)
     print("b", b, "     db", db)
     for y in range(n):
