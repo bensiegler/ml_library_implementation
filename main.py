@@ -13,7 +13,7 @@ Y = np.array([103,
 
 w = np.array(np.zeros(X[0].shape))  # feature weights
 b = 0.0  # bias
-a = 0.01
+a = 0.5
 Y_HAT = []  # predicted values
 
 
@@ -58,10 +58,16 @@ for curr_iteration in range(100000):
 
     # automatic cost convergence check
     costs.append(compute_cost())
-    if costs[len(costs) - 2] - costs[len(costs) - 1] <= epsilon:
+    dj_dx = costs[len(costs) - 2] - costs[len(costs) - 1]
+    if epsilon >= dj_dx > 0:
         final_iteration = curr_iteration
+        fig, ax = plt.subplots()
+        ax.scatter(range(final_iteration + 2), costs)
+        plt.show()
         break
-
-fig, ax = plt.subplots()
-ax.scatter(range(final_iteration + 2), costs)
-plt.show()
+    elif costs[len(costs) - 2] - costs[len(costs) - 1] < -epsilon:
+        print("WARNING COST INCREASING MATERIALLY: trying again with alpha reduced by a factor of 2")
+        w = np.array(np.zeros(X[0].shape))  # feature weights
+        b = 0.0
+        costs = [compute_cost()]
+        a /= 2
