@@ -1,5 +1,7 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
+epsilon = 0.001
 X = np.array([[1, 5],
               [2, 2],
               [3, 1],
@@ -40,8 +42,11 @@ def find_adjustments():
     return w_adjustments / num_examples, b_adjustment / num_examples
 
 
-for x in range(30000):
-    print("cost", compute_cost())
+costs = [compute_cost()]
+final_iteration = -1
+for curr_iteration in range(100000):
+    print("iteration #", curr_iteration)
+    print("cost", costs[curr_iteration])
     print("prediction", Y_HAT)
     m, n = X.shape
     dw, db = find_adjustments()
@@ -51,3 +56,12 @@ for x in range(30000):
         w[y] = w[y] + (dw[y] * a)
     b = b + (db * a)
 
+    # automatic cost convergence check
+    costs.append(compute_cost())
+    if costs[len(costs) - 2] - costs[len(costs) - 1] <= epsilon:
+        final_iteration = curr_iteration
+        break
+
+fig, ax = plt.subplots()
+ax.scatter(range(final_iteration + 2), costs)
+plt.show()
