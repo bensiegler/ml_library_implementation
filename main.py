@@ -1,11 +1,11 @@
 import numpy as np
 
-X = np.array([[1, 5, 2],
-              [2, 2, 5],
-              [3, 1, 8],
-              [4, 0, 10]])  # input values
+X = np.array([[1, 5],
+              [2, 2],
+              [3, 1],
+              [4, 0]])  # input values
 Y = np.array([103,
-              103,
+              150,
               180,
               200])  # true values
 
@@ -40,7 +40,7 @@ def find_adjustments():
     return w_adjustments / num_examples, b_adjustment / num_examples
 
 
-for x in range(90000):
+for x in range(30000):
     print("cost", compute_cost())
     print("prediction", Y_HAT)
     m, n = X.shape
