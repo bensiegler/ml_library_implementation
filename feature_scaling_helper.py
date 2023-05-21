@@ -1,7 +1,12 @@
 import numpy as np
 
+
 def max_norm(value, maximum): value / maximum
+
+
 def z_score_norm(value, mean, sd): (value - mean) / sd
+
+
 def mean_norm(value, mean, spread): (value - mean) / spread
 
 
