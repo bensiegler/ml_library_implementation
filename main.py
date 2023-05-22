@@ -1,29 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-epsilon = 0.001
-x = np.array([[1, 5],
-              [2, 2],
-              [3, 1],
-              [4, 0]])  # input values
-y = np.array([103,
-              150,
-              180,
-              200])  # true values
-
-
-# w = np.array(np.zeros(X[0].shape))  # feature weights
-# b = 0.0  # bias
-
-# a = 0.5
-
-
-#
-# Y_HAT = []  # predicted values
-
 
 def predict_with_current_params(X, w, b):
-    return np.dot (X, w) + b
+    return np.dot(X, w) + b
 
 
 def compute_cost(X, Y, w, b):
@@ -57,36 +37,32 @@ def adjust_weights_and_bias(X, Y, w, b, a):
 
 def test_for_best_alpha(X, Y, testing_alphas, number_of_iters_per_test):
     for alpha_to_test, cost_tracker in testing_alphas.items():
-        w = np.array(np.zeros(X[0].shape))
-        b = 0
-        for i in range(number_of_iters_per_test):
-            cost_tracker.append(compute_cost(X, Y, w, b))
-            w, b = adjust_weights_and_bias(X, Y, w, b, alpha_to_test)
+        cost_tracker, _, __ = run_gradient_descent(X, Y, alpha_to_test, 0.001, number_of_iters_per_test)
         fig, ax = plt.subplots()
         plt.title(alpha_to_test)
         ax.scatter(range(number_of_iters_per_test), cost_tracker)
         plt.show()
 
 
-test_for_best_alpha(x, y, {0.001: [], 0.01: [], 0.15: [], 1: []}, 20)
+def run_gradient_descent(X, Y, a, e, m):
+    cost_tracker = []
+    w = np.array(np.zeros(X[0].shape))
+    b = 0
+    for i in range(m):
+        cost_tracker.append(compute_cost(X, Y, w, b))
+        w, b = adjust_weights_and_bias(X, Y, w, b, a)
+        if i > 1 and cost_tracker[i] - cost_tracker[i - 1] < e:
+            break
+    return cost_tracker, w, b
 
-# costs = [compute_cost()]
-# final_iteration = -1
-# for curr_iteration in range(100000):
-#
-#
-#     # automatic cost convergence check
-#     costs.append(compute_cost())
-#     dj_dx = costs[len(costs) - 2] - costs[len(costs) - 1]
-#     if epsilon >= dj_dx > 0:
-#         final_iteration = curr_iteration
-#         fig, ax = plt.subplots()
-#         ax.scatter(range(final_iteration + 2), costs)
-#         plt.show()
-#         break
-#     elif costs[len(costs) - 2] - costs[len(costs) - 1] < -epsilon:
-#         print("WARNING COST INCREASING MATERIALLY: trying again with alpha reduced by a factor of 2")
-#         w = np.array(np.zeros(X[0].shape))  # feature weights
-#         b = 0.0
-#         costs = [compute_cost()]
-#         a /= 2
+
+x = np.array([[1, 5],
+              [2, 2],
+              [3, 1],
+              [4, 0]])  # input values
+y = np.array([103,
+              150,
+              180,
+              200])  # true values
+
+test_for_best_alpha(x, y, {0.001: [], 0.01: [], 0.1: [], 1: []}, 10)
