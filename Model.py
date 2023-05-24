@@ -47,6 +47,6 @@ class Model:
             curr_cost = self.regression_type.compute_cost(prediction, self.Y)
             cost_tracker.append(curr_cost)
             self.adjust_weights_and_bias(a, prediction)
-            # if i > 1 and cost_tracker[i] - cost_tracker[i - 1] < e:
-            #     break
+            if i > 1 and (cost_tracker[i - 1] - cost_tracker[i]) < e:
+                break
         return cost_tracker, self.w, self.b
