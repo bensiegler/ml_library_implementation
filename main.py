@@ -11,6 +11,9 @@ y = np.array([1,
               0,
               1,
               1])  # true values
-m = Model(x, y, 0.0000001, LogisticRegression)
-m.test_for_best_alpha({0.001: [], 0.01: [], 0.1: [], 1: []}, 1000)
-# m.run_gradient_descent(0.01, 0.000001, 100000)
+X_train = np.array([[0.5, 1.5], [1, 1], [1.5, 0.5], [3, 0.5], [2, 2], [1, 2.5]])
+y_train = np.array([0, 0, 0, 1, 1, 1])
+m = Model(X_train, y_train, 0.0001, LogisticRegression)
+# m.test_for_best_alpha({0.001: [], 0.01: [], 0.1: [], 1: []}, 1000)
+m.run_gradient_descent(0.1, 0.000001, 30000)
+print(m.w, m.b)
