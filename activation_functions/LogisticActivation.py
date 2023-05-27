@@ -1,6 +1,7 @@
 import numpy as np
 
 
+# need to include regularization
 def compute_cost(Y_HAT, Y):
     total = 0
     for i in range(len(Y_HAT)):

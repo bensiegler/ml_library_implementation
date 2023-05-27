@@ -2,15 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-class Model:
+class Node:
 
-    def __init__(self, X, Y, e, regression_type):
+    def __init__(self, X, Y, e, activation):
         self.X = X
         self.Y = Y
         self.e = e
         self.w = np.zeros(X[0].shape)
         self.b = 0
-        self.regression_type = regression_type
+        self.activation = activation
 
     def find_adjustments(self, Y_HAT):
         num_examples, num_input_features = self.X.shape
@@ -40,11 +40,13 @@ class Model:
             self.w = np.zeros(self.X[0].shape)
             self.b = 0
 
+    # to make this work for neural network you are going to have to move this to the Model because the
+    # iteration needs to use the model as a whole to predict and determine the cost.
     def run_gradient_descent(self, a, e, m):
         cost_tracker = []
         for i in range(m):
-            prediction = self.regression_type.predict_with_current_params(self.X, self.w, self.b)
-            curr_cost = self.regression_type.compute_cost(prediction, self.Y)
+            prediction = self.activation.predict_with_current_params(self.X, self.w, self.b)
+            curr_cost = self.activation.compute_cost(prediction, self.Y)
             cost_tracker.append(curr_cost)
             self.adjust_weights_and_bias(a, prediction)
             if i > 1 and (cost_tracker[i - 1] - cost_tracker[i]) < e:
