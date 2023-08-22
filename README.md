@@ -1,5 +1,5 @@
 # python_ml
-This a barebones implementation of machine learning concepts. It includes concepts such as:
+This a barebones implementation of machine learning concepts. It includes & assists with concepts such as:
   - linear activation
   - logistic activation
   - relu activation
