@@ -1,5 +1,5 @@
 import numpy as np
-from Node import Node
+from Unit import Unit
 from activation_functions import LogisticActivation
 
 x = np.array([[1.2, 2.1, 3.5],
@@ -21,7 +21,7 @@ x = np.array([[1.2, 2.1, 3.5],
 y = np.array([0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1])  # true values
 X_train = np.array([[0.5, 1.5], [1, 1], [1.5, 0.5], [3, 0.5], [2, 2], [1, 2.5]])
 y_train = np.array([0, 0, 0, 1, 1, 1])
-m = Node(x, y, 0.0001, LogisticActivation)
+m = Unit(x, y, 0.0001, LogisticActivation)
 # m.test_for_best_alpha({0.001: [], 0.01: [], 0.1: [], 1: []}, 1000)
 m.run_gradient_descent(0.1, 0.000001, 30000)
 print(m.w, m.b)

@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-class Node:
+class Unit:
 
     def __init__(self, X, Y, e, activation):
         self.X = X
