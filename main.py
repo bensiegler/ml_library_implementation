@@ -33,14 +33,14 @@ from sklearn.datasets import make_blobs
 import matplotlib.pyplot as plt
 
 # Generate 2D clustered data
-n_samples = 300
+n_samples = 500
 n_features = 2
 n_clusters = 5
-X, y = make_blobs(n_samples=n_samples, n_features=n_features, centers=n_clusters, random_state=20)
+X, y = make_blobs(n_samples=n_samples, n_features=n_features, centers=n_clusters, random_state=422)
 
 X = np.array(X)
 
-kmeans = KMeans(X, 5, 50, 200)
+kmeans = KMeans(X, 5, 500, 2000, 0.001)
 kmeans.run()
 print(kmeans.centroids)
 
